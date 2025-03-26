@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :posts
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get "users/index"
   get "users/show"
@@ -11,10 +12,16 @@ Rails.application.routes.draw do
   get "group_user/create"
   get "group_user/update"
   get "group_user/destroy"
+  get "posts/index"
+  get "posts/show"
+  get "posts/create"
+  get "posts/update"
+  get "posts/destroy"
   post '/signin', to: 'sessions#signin'
   post '/create', to: 'regitster#create'
   resources :users
   resources :group_user
+  resources :posts
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check

@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
   def index
-    user=User.all
-    # @groupuser=Groupuser.all
-    render json: user 
+    users = User.all.map do |user|
+      user.as_json.merge({avatar_url: user.avatar_url})
+    end
+    render json: users 
   end
 
   def show
@@ -36,6 +37,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:id, :name, :age, :group_user_id, :email, :password, :file,)
+    params.permit(:id, :name, :age, :group_user_id, :email, :password, :avatar)
   end
 end

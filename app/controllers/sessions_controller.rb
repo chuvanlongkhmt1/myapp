@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
       session[:current_user_id] = user.id
       render json: {
         logged_in:true,
-        user:current_user.as_json(only: %i[id name email]),
+        user:current_user.as_json(only: %i[id name email ]).merge({avatar_url: user.avatar_url}),
         success:"login success"
         }
     else
