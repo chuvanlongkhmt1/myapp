@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  # skip_before_action :authorized, only: [:index, :show]
   def index
     users = User.all.map do |user|
       user.as_json.merge({avatar_url: user.avatar_url})

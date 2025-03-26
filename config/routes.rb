@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get "posts/update"
   get "posts/destroy"
   post '/signin', to: 'sessions#signin'
+  post '/destroy', to: 'sessions#signin'
   post '/create', to: 'regitster#create'
   resources :users
   resources :group_user
