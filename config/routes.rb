@@ -17,9 +17,11 @@ Rails.application.routes.draw do
   get "posts/create"
   get "posts/update"
   get "posts/destroy"
-  post '/signin', to: 'sessions#signin'
-  post '/destroy', to: 'sessions#signin'
+  # post '/signin', to: 'sessions#signin'
+  post '/signin', to: 'sessions#create'
+  post '/destroy', to: 'sessions#destroy'
   post '/create', to: 'regitster#create'
+  get '/current_user', to: 'application#current_user'
   resources :users
   resources :group_user
   resources :posts

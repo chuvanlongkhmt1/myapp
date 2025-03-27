@@ -509,6 +509,7 @@ DEPENDENCIES
   image_processing (>= 1.2)
   importmap-rails
   jbuilder
+  jwt (~> 2.5)
   kamal
   propshaft
   puma (>= 5.0)

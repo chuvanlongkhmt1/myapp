@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # skip_before_action :authorized, only: [:index, :show]
+
   def index
     users = User.all.map do |user|
       user.as_json.merge({avatar_url: user.avatar_url})
@@ -14,7 +14,11 @@ class UsersController < ApplicationController
 
   def create
     user = User.create!(user_params)
-    render json: User.all
+    @token = encode_token(user_id: user.id)
+    render json: {
+      user: User.all,
+      token: @token
+    }
     head :no_content
   end
 

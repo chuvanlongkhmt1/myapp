@@ -2,9 +2,10 @@ class PostsController < ApplicationController
   before_action  only: %i[show update destroy]
 
   def index
-    posts = Post.all
-
-    render json: posts
+    # posts = Post.all
+    # render json: posts
+    current_user = User.find_by id: session[:current_user_id]
+    render json: current_user
   end
 
   def show

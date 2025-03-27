@@ -64,6 +64,7 @@ end
 gem 'rack-cors'
 gem 'responders'
 gem 'bcrypt', '~> 3.1.11'
+gem 'jwt', '~> 2.5'
 gem "image_processing", ">= 1.2"
 gem 'activestorage', '~> 8.0.2'
 gem "aws-sdk-s3", require: false

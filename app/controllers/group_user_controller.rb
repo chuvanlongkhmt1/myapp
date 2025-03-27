@@ -1,11 +1,12 @@
 class GroupUserController < ApplicationController
+  # skip_before_action :authorized, only: [:index]
   def index
     groupuser = GroupUser.all
     render json: groupuser
   end
     
   def show
-    user = User.where("groupuser_id = ?", params[:id])
+    user = User.where("group_user_id = ?", params[:id])
     render json: user 
   end
 
