@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get "posts/update"
   get "posts/destroy"
   # post '/signin', to: 'sessions#signin'
-  post '/signin', to: 'sessions#create'
+  post '/signin', to: 'sessions#login'
   post '/destroy', to: 'sessions#destroy'
   post '/create', to: 'regitster#create'
   get '/current_user', to: 'application#current_user'

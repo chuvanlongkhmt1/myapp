@@ -3,7 +3,8 @@ class SessionsController < ApplicationController
   # def signin
   #   user = User.find_by(email: params[:email])
   #   if user&&user.authenticate(params[:password])
-  #     cookies[:user_id] = user.id
+  #     session[:user_id] = user.id
+
   #     render json: {
   #       logged_in:true,
   #       user:current_user.as_json(only: %i[id name email ]).merge({avatar_url: user.avatar_url}),
@@ -19,32 +20,30 @@ class SessionsController < ApplicationController
   #   session.delete(:user_id)
   #   # current_user = nil
   # end
-  def create
-    generate_token @current_user
-    render json: {message: "Login successfully", success: true, data: @data}, status: 200
-  end
-  
- def generate_token user
-    user.update_attributes login_token: SecureRandom.hex
-    access_token = JsonWebToken.encode(user_id: user.id, login_token: user.login_token)
- 
-    @data = {
-      access_token: access_token,
-      token_type: "Bearer"
-    }
-  end
-  
-  def authenticate
-    access_token = request.headers["JWTAuthorization"]
-    @decoded = JsonWebToken.decode access_token&.split(" ")&.last
-    @current_user = User.find @decoded.try(:[], :user_id)
-    return if (@decoded.nil? || @current_user.login_token != @decoded.try(:[], :login_token))
-    
-    render json: {success: false , data: nil}, status: 400
+
+  def login
+    user = User.find_by(email: params[:email])
+
+    if user && user.authenticate(params[:password])
+      payload = { user_id: user.id }
+      token = JWT.encode(payload, Rails.application.secrets.secret_key_base)
+
+      render json: { token: token }
+    else
+      render json: { error: 'Invalid email or password' }, status: :unauthorized
+    end
   end
 
-  def destroy
-    @current_user.update_attributes login_token: nil
-    render json: {message: "Logout successfully",success: true, data: nil}, status: 200
+  def profile
+    header = request.headers['Authorization']
+    token = header.split(' ').last if header
+
+    begin
+      decoded = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
+      user = User.find(decoded["user_id"])
+      render json: { user: user }
+    rescue
+      render json: { error: 'Invalid token' }, status: :unauthorized
+    end
   end
 end
