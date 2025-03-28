@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     users = User.all.map do |user|
       user.as_json.merge({avatar_url: user.avatar_url})
     end
-    render json: users 
+    render json: users
   end
 
   def show
@@ -14,29 +14,27 @@ class UsersController < ApplicationController
 
   def create
     user = User.create!(user_params)
-    @token = encode_token(user_id: user.id)
     render json: {
       user: User.all,
-      token: @token
+      message: 'success!',
     }
-    head :no_content
   end
 
   def update
     user = User.find(params["id"])
-    if user.update(user_params)
-      render json: User.all
-    else
-      render json: errors(user), status: 422
-    end
+    user.update!(user_params)
+      render json: {
+        user: User.all,
+        message: 'success',
+      }
   end
 
   def destroy
-    if User.find(params["id"]).destroy!
-      render json: User.all
-    else
-      render json: errors(user), status: 422
-    end
+    User.find(params["id"]).destroy!
+    render json: {
+      user: User.all,
+      message: 'delete success',
+    }
   end
 
   private

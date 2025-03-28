@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   post '/signin', to: 'sessions#login'
   post '/destroy', to: 'sessions#destroy'
   post '/create', to: 'regitster#create'
-  get '/current_user', to: 'application#current_user'
+  get '/profile', to: 'sessions#profile'
   resources :users
   resources :group_user
   resources :posts

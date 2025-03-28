@@ -3,7 +3,7 @@ class User < ApplicationRecord
     has_secure_password
     has_one_attached :avatar
     validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
-    # validates :file, :image, presence: true
+    #validates :avatar, :image, presence: true
     # belongs_to :groupuser  
     # foreign_key: :groupuser_id
     def avatar_url
