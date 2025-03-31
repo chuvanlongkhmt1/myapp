@@ -1,18 +1,14 @@
 class SessionsController < ApplicationController
-  # skip_before_action :authorized, only: [:signin]
-  # def destroy
-  #   session.delete(:user_id)
-  #   # current_user = nil
-  # end
-
+  skip_before_action :authorized
+  
   def login
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
       payload = { user_id: user.id }
       token = JWT.encode(payload, Rails.application.credentials.secret_key_base)
-      render json: { token: token, logged_in:true, message: 'success!', }
+      render json: { token: token, message: 'success!', redirect: '/',}
     else
-      render json: {logged_in:false, error: 'Invalid email or password' }, status: :unauthorized
+      render json: { error: 'Invalid email or password' }, status: :unauthorized
     end
   end
 

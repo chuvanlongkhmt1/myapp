@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-
+  # skip_before_action :authorized, only: [:index]
   def index
     users = User.all.map do |user|
-      user.as_json.merge({avatar_url: user.avatar_url})
+    user.as_json.merge({avatar_url: user.avatar_url})
     end
     render json: users
   end
@@ -34,6 +34,7 @@ class UsersController < ApplicationController
     render json: {
       user: User.all,
       message: 'delete success',
+      redirect: 'reload'
     }
   end
 

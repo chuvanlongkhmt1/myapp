@@ -1,10 +1,11 @@
 class RegitsterController < ApplicationController
+  skip_before_action :authorized, only: [:create]
   def create
     user = User.create!(user_params)
-    # session[:user_id] = user.id
     render json: {
       user: user.as_json(only: %i[id name email]),
-      message: "success"
+      message: "sign up succes, sign in to use!",
+      redirect: '/signin',
     }
   end
 
