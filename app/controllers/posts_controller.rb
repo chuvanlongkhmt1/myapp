@@ -1,11 +1,9 @@
 class PostsController < ApplicationController
-  before_action  only: %i[show update destroy]
+  skip_before_action :authorized
 
   def index
-    # posts = Post.all
-    # render json: posts
-    current_user = User.find_by id: session[:current_user_id]
-    render json: current_user
+    posts = Post.all
+    render json: posts
   end
 
   def show
@@ -14,35 +12,34 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = Post.new(post_params)
-
-    if post.save
-      render json: post, status: :created
-    else
-      render json: post.errors, status: :unprocessable_entity
-    end
+    post = Post.create!(post_params)
+    render json: {
+      post: Post.all,
+      message: 'success!',
+    }
   end
 
   def update
     post = Post.find(params[:id])
-    if post.update(post_params)
-      render json: post
-    else
-      render json: post.errors, status: 422
-    end
+    ipost.update!(post_params)
+      render json: {
+      post: Post.all,
+      message: 'success',
+    }
+
   end
 
   def destroy
-    if Post.find(params["id"]).destroy!
-      render json: Post.all
-    else
-      render json: errors(post), status: 422
-    end
+    Post.find(params["id"]).destroy!
+    render json: {
+      user: User.all,
+      message: 'delete success',
+      redirect: "/test"
+    }
   end
-
   private
 
   def post_params
-    params.require(:post).permit(:title, :description, :profile_picture)
+    params.require(:post).permit(:title, :description)
   end
 end
