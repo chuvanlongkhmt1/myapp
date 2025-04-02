@@ -21,7 +21,7 @@ class PostsController < ApplicationController
 
   def update
     post = Post.find(params[:id])
-    ipost.update!(post_params)
+    post.update!(post_params)
       render json: {
       post: Post.all,
       message: 'success',
@@ -34,12 +34,11 @@ class PostsController < ApplicationController
     render json: {
       user: User.all,
       message: 'delete success',
-      redirect: "/test"
     }
   end
   private
 
   def post_params
-    params.require(:post).permit(:title, :description)
+    params.permit(:title, :description)
   end
 end

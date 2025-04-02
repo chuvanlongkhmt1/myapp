@@ -24,7 +24,7 @@ class GroupUserController < ApplicationController
 
   def destroy
     GroupUser.find(params["id"]).destroy!
-    render json: {message: 'success', redirect: 'reload'}
+    render json: {message: 'success',}
   end
 
   private
